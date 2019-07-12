@@ -30,10 +30,11 @@ def retrive_products(nrpage):
             product_price = product.find('span', class_='w-currentPrice iss-current-price')
             product_price = product_price.get_text()[1:]
             dictNamePrice[product_name.get_text()]=product_price
+        print('Progresso do scrapping: ' + str(int(i/nrpage*100))+'%')
     date = str(datetime.date.today())
     df = DataFrame({'Modelo': list(dictNamePrice.keys()), 'Preço': list(dictNamePrice.values())})
-    df.to_excel('PrecosWorten'+date+'.xlsx', sheet_name='sheet1', index=False)
-
+    df.to_excel('Precos-Worten'+date+'.xlsx', sheet_name='sheet1', index=False)
+    print("Excel criado com o nome: Precos-Worten"+date+".xlsx" )
 
 if __name__ == '__main__':
     retrive_products(getpages())
