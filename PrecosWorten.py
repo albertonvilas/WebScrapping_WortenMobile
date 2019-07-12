@@ -35,6 +35,3 @@ def retrive_products(nrpage):
     df = DataFrame({'Modelo': list(dictNamePrice.keys()), 'Preço': list(dictNamePrice.values())})
     df.to_excel('Precos-Worten'+date+'.xlsx', sheet_name='sheet1', index=False)
     print("Excel criado com o nome: Precos-Worten"+date+".xlsx" )
-
-if __name__ == '__main__':
-    retrive_products(getpages())
