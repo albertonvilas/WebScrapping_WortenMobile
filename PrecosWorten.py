@@ -6,8 +6,10 @@ import requests
 from pandas import DataFrame
 import datetime
 
-page = requests.get("http://www.worten.pt/telemoveis-e-pacotes-tv/telemoveis-e-smartphones?page=1&vendido-por=Worten")
-soup = BeautifulSoup(page.content, 'html.parser')
+
+#indentado para evitar scrap excessivo
+#page = requests.get("http://www.worten.pt/telemoveis-e-pacotes-tv/telemoveis-e-smartphones?page=1&vendido-por=Worten")
+#soup = BeautifulSoup(page.content, 'html.parser')
 
 def getpages():
     pageblock = soup.find('div', class_='w-pagination-block')
@@ -18,9 +20,18 @@ def getpages():
 
 dictNamePrice=dict()
 
-def retrive_products(nrpage):
+def testeprogress():
+    progress = 0
+    while True:
+        print(progress)
+        progress += 10
+        sleep(2)
+        if progress==100:
+            return False
 
-    for i in range(nrpage+1):      # Number of pages plus one
+
+def retrive_products(nrpage):
+    for i in range(nrpage+1):
         url = "http://www.worten.pt/telemoveis-e-pacotes-tv/telemoveis-e-smartphones?page={}&vendido-por=Worten".format(i)
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
@@ -31,6 +42,7 @@ def retrive_products(nrpage):
             product_price = product_price.get_text()[1:]
             dictNamePrice[product_name.get_text()]=product_price
         print('Progresso do scrapping: ' + str(int(i/nrpage*100))+'%')
+
     date = str(datetime.date.today())
     df = DataFrame({'Modelo': list(dictNamePrice.keys()), 'Preço': list(dictNamePrice.values())})
     df.to_excel('Precos-Worten'+date+'.xlsx', sheet_name='sheet1', index=False)

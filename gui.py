@@ -4,21 +4,23 @@ __email__ = "anv7345@gmail.com"
 import PySimpleGUI as sg
 import PrecosWorten as pw
 
-print(pw.call())
 
 
-layout = [[sg.Text('Persistent window')],
-          [sg.Button('Make Scrap'), sg.Exit()]]
+layout = [
+            [sg.Text('Progresso')],
+            [sg.Output(size=(None, None))],
+            [sg.Button('Make Scrap'), sg.Exit()]
+        ]
 
-window = sg.Window('Window that stays open', layout)
+window = sg.Window('GET INFO WORTEN', layout)
 
 while True:
     event, values = window.Read()
     if event == 'Make Scrap':
-        pw.retrive_products(pw.getpages())
+        print("O scrap começou a ser realizado...")
+        window.Refresh()
+        pw.testeprogress()
         print(event)
     elif event =='Exit'  or event is None:
         window.Close()
         break
-
-sg.PopupOK('Done')
